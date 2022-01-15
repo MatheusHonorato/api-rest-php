@@ -7,7 +7,6 @@ use Exception;
 use PDO;
 use PDOException;
 
-// interface DB
 class MySQL {
   private object $db;
 
