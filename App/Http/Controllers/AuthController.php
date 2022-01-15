@@ -31,9 +31,8 @@ class AuthController {
 
           $decode = JWT::decode($jwt, new Key(self::KEY, 'HS256'));
 
-          if (User::finByParam('email', $decode->email)) {
+          if (User::finByParam('email', $decode->email))
             return true;
-          }
       }
 
       return false;
