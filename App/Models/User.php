@@ -2,43 +2,50 @@
 
 namespace App\Models;
 
-use App\Repository\UserRepository;
-
 class User {
   public const TABLE = 'users';
 
-  public static function findById($id) {
-    return UserRepository::getMySQL()->getById(self::TABLE, $id);
+  private int $id;
+  private string $name;
+  private string $email;
+  private string $password;
+
+  public function __construct(?array $data = null){
+    if($data['name']) $this->setName($data['name']);
+    if($data['email']) $this->setEmail($data['email']);
+    if($data['password']) $this->setPassword($data['password']);
   }
 
-  public static function finByParam($param, $value) {
-    return UserRepository::getMySQL()->getByParam(self::TABLE, $param, $value);
+  public function getId() {
+    return $this->id;
+  }
+  public function setId(int $id) {
+    $this->id = $id;
+  }
+  public function getName() {
+    return $this->name;
+  }
+  public function setName(string $name) {
+    $this->name = $name;
+  }
+  public function getEmail() {
+    return $this->email;
+  }
+  public function setEmail(string $email) {
+    $this->email = $email;
+  }
+  public function getPassword() {
+    return $this->password;
+  }
+  public function setPassword(string $password) {
+    $this->password = password_hash($password, PASSWORD_DEFAULT);
   }
 
-  public static function getAll($page, $limit) {
-    if(isset($_GET['page']))
-      $page = $_GET['page'];
-  
-    if(isset($_GET['limit']))
-      $limit = $_GET['limit'];
+  public function get() {
+    $user['name'] = $this->getName();
+    $user['email'] = $this->getEmail();
+    $user['password'] =$this->getPassword();
 
-    return UserRepository::getMySQL()->getAll(self::TABLE, $page, $limit);
-  }
-
-  public static function save($user) {
-    $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
-  
-    return UserRepository::getMySQL()->save(self::TABLE, $user);
-  }
-
-  public static function update($user) {
-    if($user['password'])
-      $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
-
-    return UserRepository::getMySQL()->update(self::TABLE, $user);
-  }
-
-  public static function destroy($id) {
-    return UserRepository::getMySQL()->destroy(self::TABLE, $id);
+    return $user;
   }
 }

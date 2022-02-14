@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Service\User;
 
 class UserController {
   public function get($id = null, $page = 1, $limit = 20) {
     if($id) {
       return User::findById($id);
     } else {
-      if(AuthController::checkAuth())
+      //if(AuthController::checkAuth())
         return User::getAll($page, $limit);
       throw new \Exception('Não autenticado');
     }
@@ -17,7 +17,7 @@ class UserController {
 
   public function post() {
     $data = json_decode(file_get_contents('php://input'), true);
-  
+
     return User::save($data);
   }
 

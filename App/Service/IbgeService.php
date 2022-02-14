@@ -4,14 +4,14 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 
+// utilizar adapter para requisicoes
 class IbgeService {
   private const URI = 'https://servicodados.ibge.gov.br/api/v1/';
 
   public static function findById($id) {
 
     try {
-      $client = new Client();
-      $res = $client->request('GET', self::URI.'localidades/municipios/'.$id);
+      $res = (new Client())->request('GET', self::URI.'localidades/municipios/'.$id);
       return $res->getBody()->getContents();
     } catch (\Throwable $th) {
       return $th;
@@ -21,8 +21,7 @@ class IbgeService {
   public static function getAll() {
 
     try {
-      $client = new Client();
-      $res = $client->request('GET', self::URI.'localidades/municipios');
+      $res = (new Client())->request('GET', self::URI.'localidades/municipios');
       return $res->getBody()->getContents();
     } catch (\Throwable $th) {
       return $th;
