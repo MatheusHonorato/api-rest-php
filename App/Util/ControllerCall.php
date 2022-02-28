@@ -7,7 +7,8 @@ use App\Util\ClearString;
 
 class ControllerCall
 {
-  public static function generate($url) {
+  public static function generate($url)
+  {
     $url = explode('?', $_SERVER['REQUEST_URI']);
     $url = explode('/', $url[getenv('FIRST_VALUE')]);
 
